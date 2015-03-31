@@ -26,17 +26,23 @@
   {% for message in messages %}
     <ul>
       <li>
+        <div style="border-style:solid;word-wrap: break-word;width:500px;background-color:#ffeeff;">
+          <font style="color:green">
+            {% if message.user %}
+              {{ message.user.get_username }}:
+            {% else %}
+              Anonymous:
+            {% endif %}
+          </font>
           {{ message.text }}
+        </div>
       </li>
     </ul>
   {% endfor %}
 
-
-  {% if user.is_authenticated %}
-    <form action="" method="post">
-      <label for="label">Сообщение:</label><br>
-      <textarea name="message_text" value="" id="message_text"></textarea><br>
-      <input type="submit" value="Отправить" />
-    </form>
-  {% endif %}
+  <form action="" method="post">
+    <label for="label">Сообщение:</label><br>
+    <textarea style="width:500px;height:50px" name="message_text" value="" id="message_text"></textarea><br>
+    <input type="submit" value="Отправить" />
+  </form>
 {% endblock %}

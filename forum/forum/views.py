@@ -49,12 +49,12 @@ def logout(request):
 
 def forum(request):
     if request.method == 'POST':
-        message_text = request.POST.get('message_text', '')
-        if len(message_text) == 0:
+        user = request.user if request.user.is_authenticated() else None
+        message = Message(user=user, text=request.POST.get('message_text', ''))
+        if len(message.text) == 0:
             messages = Message.objects.all()
             return render(request, 'forum.html',
                           {'messages': messages, 'errors': 'Empty message'})
-        message = Message(text=message_text)
         message.save()
     messages = Message.objects.all()
     return render(request, 'forum.html', {'messages': messages})
