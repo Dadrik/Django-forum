@@ -1,27 +1,30 @@
-<html>
-    <body>
-        {% if user.is_authenticated %}
-            <p>You are logged in as {{ user }}.</p>
-        {% else %}
-            <p>You are anonymous.</p>
-        {% endif %}
+{% extends 'base.html' %}
 
-        {% for message in messages %}
-        <ul>
-            <li>
-                {{ message.text|upper }}
-            </li>
-        </ul>
-        {% endfor %}
+{% block login/logout %}
+  {% if user.is_authenticated %}
+    <a href='/logout' style="color:black">Выйти</a>
+  {% else %}
+    <a href='/login' style="color:black">Войти</a>
+    |
+    <a href="/register" style="color:black">Регистрация</a>
+  {% endif %}
+{% endblock %}
 
-        <p>
-            This is a forum template.
-        </p>
+{% block content %}
+  <h2>Форумчик</h2>
+  
+  {% if user.is_authenticated %}
+    <p>You are logged in as {{ user }}.</p>
+  {% else %}
+    <p>You are anonymous.</p>
+  {% endif %}
+  
+  {% for message in messages %}
+    <ul>
+      <li>
+          {{ message.text }}
+      </li>
+    </ul>
+  {% endfor %}
 
-        {% if user.is_authenticated %}
-            <a href="/logout">logout</a>.
-        {% else %}
-            <a href="/login">login</a>.
-        {% endif %}
-    </body>
-</html>
+{% endblock %}

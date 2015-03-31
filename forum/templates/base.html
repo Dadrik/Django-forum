@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title>Форумчик</title>
+  </head>
+  <body>
+    <div id='header' style="background-color: #77ff77">
+      |
+      <a href='/forum' style="color:black">Форум</a>
+      |
+      {% block login/logout %}
+      {% endblock %} 
+      |
+    </div>
+    
+    <div id='content' style="background-color: #ffffaa">
+      {% block content%}
+      {% endblock %}
+    </div>
+  </body>
+</html>
