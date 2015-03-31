@@ -38,7 +38,8 @@ def login(request):
             # Redirect to a success page.
             return HttpResponseRedirect("/forum")
         else:
-            return render(request, 'login.html', {'errors': 'Wrong login or username'})
+            return render(request, 'login.html',
+                          {'errors': 'Wrong login or username'})
     else:
         return render(request, 'login.html')
 
@@ -47,6 +48,14 @@ def logout(request):
     return HttpResponseRedirect("/forum")
 
 def forum(request):
+    if request.method == 'POST':
+        message_text = request.POST.get('message_text', '')
+        if len(message_text) == 0:
+            messages = Message.objects.all()
+            return render(request, 'forum.html',
+                          {'messages': messages, 'errors': 'Empty message'})
+        message = Message(text=message_text)
+        message.save()
     messages = Message.objects.all()
     return render(request, 'forum.html', {'messages': messages})
 

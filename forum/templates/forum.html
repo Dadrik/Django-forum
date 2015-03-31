@@ -19,6 +19,10 @@
     <p>You are anonymous.</p>
   {% endif %}
   
+  {% if errors %}
+    <p style="color:red" class="error">{{ errors }}</p>
+  {% endif %}
+  
   {% for message in messages %}
     <ul>
       <li>
@@ -27,4 +31,12 @@
     </ul>
   {% endfor %}
 
+
+  {% if user.is_authenticated %}
+    <form action="" method="post">
+      <label for="label">Сообщение:</label><br>
+      <textarea name="message_text" value="" id="message_text"></textarea><br>
+      <input type="submit" value="Отправить" />
+    </form>
+  {% endif %}
 {% endblock %}
