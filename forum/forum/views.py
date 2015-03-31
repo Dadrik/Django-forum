@@ -10,17 +10,17 @@ from main.models import Message
 
 def register(request):
     if request.method == 'POST':
-        username = request.POST.get('username', '')
-        password = request.POST.get('password', '')
+        username = request.POST.get('username', None)
+        password = request.POST.get('password', None)
         if User.objects.filter(username=username):
             return render(request, 'register.html',
-                    {'errors': 'This username is already taken'})
+                          {'errors': 'This username is already taken'})
 
         user = User.objects.create_user(username=username, password=password)
 
         if user:
             user = auth.authenticate(username=username, password=password)
-            auth.login(request,user)
+            auth.login(request, user)
             return HttpResponseRedirect("/forum")
 
         return render(request, str(user))
@@ -50,7 +50,11 @@ def logout(request):
 def forum(request):
     if request.method == 'POST':
         user = request.user if request.user.is_authenticated() else None
-        message = Message(user=user, text=request.POST.get('message_text', ''))
+        parent_id = request.POST.get("parent_id", "0")
+        parent = None
+        if parent_id != "0":
+            parent = Message.objects.get(pk=parent_id)
+        message = Message(user=user, parent_id=parent, text=request.POST.get('message' + parent_id, ''))
         if len(message.text) == 0:
             messages = Message.objects.all()
             return render(request, 'forum.html',

@@ -1,0 +1,22 @@
+<li>
+  <div style="border: 2px solid;word-wrap: break-word;width:500px;background-color:#ffeeff;">
+    <font style="color:green">
+      {% if message.user %}
+        {{ message.user.get_username }}:
+      {% else %}
+        Anonymous:
+      {% endif %}
+    </font>
+    {{ message.text }}
+  </div>
+  <form action="" method="post">
+    <textarea style="width:400px;heigh:5px" name="message{{ message.id }}"></textarea>
+    <input type="hidden" name="parent_id" value="{{ message.id }}"/>
+    <input type="submit" value="Оставить комментарий" />
+  </form>
+  <ul>
+    {% for message in message.childs.all %}
+      {% include "message_tree.html" %}
+    {% endfor %}
+  </ul>
+</li>
